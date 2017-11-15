@@ -77,10 +77,21 @@ data_nynoaa %>%
 Row {.tabset .tabset-fade}
 -----------------------------------------------------------------------
 
-### Chart B
+### The scatter plot of mean tmax and tmin in each month
 
 ```{r}
-
+renderPlotly({
+data_nynoaa %>%
+  filter(id == input$station_choice,
+         year %in% input$year_range[1] : input$year_range[2]) %>% 
+  mutate( month = as.factor(month)) %>% 
+  group_by(month) %>%
+  mutate(mean_tmax_month = mean(tmax, na.rm = TRUE),
+         mean_tmin_month = mean(tmin, na.rm = TRUE)) %>%
+  plot_ly( x = ~month, y = ~mean_tmax_month, name = 'mean tmax', type = 'scatter', mode = 'markers') %>%
+  add_trace(y = ~mean_tmin_month, name = 'mean tmin', mode = 'markers') %>% 
+  layout(yaxis = list(title = 'mean tmin(tmax)'))
+})
 ```
 
 ### Chart C
