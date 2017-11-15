@@ -38,9 +38,22 @@ data_nynoaa = read_csv("./data/nynoaadat.csv") %>%
 
 Column {.sidebar}
 -----------------------------------------------------------------------
+This `flexdashboard` with Shiny was made for P8105 Data Scienc course homework 6, problem 2. The data come from [NY NOAA](http://jeffgoldsmith.com/DSI/dataset_noaa.html).
 
 ```{r}
+station = data_nynoaa %>% distinct(id) %>% pull()
+selectInput("station_choice", label = h3("Select station"),
+            choices = station, selected = "USC00300085")
 
+renderPrint({ 
+  input$station_choice
+})
+
+max_year = data_nynoaa %>% distinct(year) %>% max()
+min_year = data_nynoaa %>% distinct(year) %>% min()
+  
+sliderInput("year_range", label = h3("Choose year range"), min = min_year, 
+        max = max_year, value = c(1981, 2000))
 ```
 
 
