@@ -4,7 +4,7 @@ author: "Weixin Peng & Lu Gan"
 date: "November 14, 2017"
 output: 
   flexdashboard::flex_dashboard:
-  orientation: row
+    orientation: row
   runtime: shiny
 ---
 
@@ -60,10 +60,18 @@ sliderInput("year_range", label = h3("Choose year range"), min = min_year,
 Row
 -----------------------------------------------------------------------
 
-### Chart A
+### The distribution of mean tmax of each month
 
 ```{r}
-
+renderPlotly({
+data_nynoaa %>%
+  filter(id == input$station_choice,
+         year %in% input$year_range[1] : input$year_range[2]) %>% 
+  mutate( month = as.factor(month)) %>% 
+  group_by(month) %>%
+  plot_ly(y = ~tmax, x = ~month, color = ~month, type = "box",
+          colors = "Set2")
+})
 ```
 
 Row {.tabset .tabset-fade}
