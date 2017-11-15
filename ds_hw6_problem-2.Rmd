@@ -1,0 +1,70 @@
+---
+title: "Problem 2"
+author: "Weixin Peng & Lu Gan"
+date: "November 14, 2017"
+output: 
+  flexdashboard::flex_dashboard:
+  orientation: row
+  runtime: shiny
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(tidyverse)
+library(janitor)
+library(stringr)
+library(forcats)
+library(viridis)
+library(plotly)
+library(shiny)
+```
+
+```{r}
+data_nynoaa = read_csv("./data/nynoaadat.csv") %>%
+  clean_names() %>%
+  filter(id %in% c("USC00300085", "USC00300183", "USC00301152")) %>%
+  mutate(ymd = date) %>%
+  separate(ymd, into = c("year", "month", "day"), sep = "-") %>%
+  mutate(
+    year = as.integer(year),
+    month = as.integer(month),     
+    day = as.integer(day),
+    tmax = as.integer(tmax),
+    tmin = as.integer(tmin)
+  ) %>%
+  select(id, year, month, tmax, tmin) %>%
+  na.omit 
+```
+
+Column {.sidebar}
+-----------------------------------------------------------------------
+
+```{r}
+
+```
+
+
+Row
+-----------------------------------------------------------------------
+
+### Chart A
+
+```{r}
+
+```
+
+Row {.tabset .tabset-fade}
+-----------------------------------------------------------------------
+
+### Chart B
+
+```{r}
+
+```
+
+### Chart C
+
+```{r}
+
+```
+
