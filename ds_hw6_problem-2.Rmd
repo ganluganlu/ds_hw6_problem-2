@@ -94,9 +94,16 @@ data_nynoaa %>%
 })
 ```
 
-### Chart C
+### The number of days with tmax>100 in each month
 
 ```{r}
-
+renderPlotly({
+data_nynoaa %>% 
+  filter(id == input$station_choice,
+         year %in% input$year_range[1] : input$year_range[2]) %>% 
+  mutate( month = as.factor(month)) %>% 
+  filter(tmax > 100) %>% 
+  count(month) %>% 
+  plot_ly(x = ~month, y = ~n, color = ~month, type = "bar") 
+})
 ```
-
